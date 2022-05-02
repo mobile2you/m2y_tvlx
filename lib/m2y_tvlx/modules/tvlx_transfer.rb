@@ -7,6 +7,19 @@ module M2yTvlx
     end
 
 
+    def getFavorites(body)
+      tvlx_body = tvlxBody(body)
+      tvlx_body[:tpFiltro] = 1
+      response = @request.post(@url + CHECK_FAV_PATH, tvlx_body)
+      puts response
+      if response["listaFavorecidos"].nil?
+        []
+      else
+        response["listaFavorecidos"]
+      end
+    end
+
+
     def bankTransfers(body, is_ted, date = nil)
       # if !checkFav(body)
         addFav(body)
