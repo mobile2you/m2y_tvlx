@@ -8,7 +8,7 @@ module M2yTvlx
 
 
     def getFavorites(body)
-      tvlx_body = tvlxBody(body)
+      tvlx_body = body
       tvlx_body[:tpFiltro] = 1
       response = @request.post(@url + CHECK_FAV_PATH, tvlx_body)
       puts response
