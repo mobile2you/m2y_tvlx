@@ -95,7 +95,6 @@ module M2yTvlx
     def getBankTransfers(params)
       params[:nrSeq] = 0
       params[:nrInst] = getInstitution
-      params[:nrPrazo] = 120
       params[:tpComprovante] = 1
       response = @request.post(@url + RECEIPTS_PATH, params)
       TvlxModel.new(response)
