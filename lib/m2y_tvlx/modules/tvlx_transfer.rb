@@ -30,6 +30,7 @@ module M2yTvlx
       tvlx_body[:idTitul] = 'C'
 
       tvlx_body[:cdCta] = body[:cdCta]
+      tvlx_body[:cdFin] = body[:cdFin]
       tvlx_body[:nrAgen] = body[:nrAgen]
       tvlx_body[:vlLanc] = body[:value]
 
