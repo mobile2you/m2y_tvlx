@@ -58,7 +58,7 @@ module M2yTvlx
       tvlx_body[:nrSeqDes] = 0
       tvlx_body[:cdOrigem] = 24556
       tvlx_body[:nrDocCre] = 9
-      tvlx_body[:cdFin] = 30
+      tvlx_body[:cdFin] = 1
       tvlx_body[:nrSeq] = 0
       tvlx_body[:dsHist] = ''
       tvlx_body[:dsHistC] = ''
