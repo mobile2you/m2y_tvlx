@@ -28,6 +28,13 @@ module M2yTvlx
       TvlxModel.new(response)
     end
 
+    def findManager(params)
+      params[:nrSeq] = 0
+      params[:nrInst] = getInstitution
+      response = @request.post(@url + MANAGERS_PATH, params)
+      TvlxModel.new(response)
+    end
+
 
     def getTransactions(params, with_future = true)
       params[:nrSeq] = 0
