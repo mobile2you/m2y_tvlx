@@ -23,7 +23,7 @@ module M2yTvlx
       tvlx_body = body
       response = @request.post(@url + REMOVE_FAV_PATH, tvlx_body)
       puts response
-      response.code >= 204
+      response
     end
 
 
