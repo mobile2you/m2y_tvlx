@@ -44,8 +44,8 @@ module M2yTvlx
     end
 
     def addFav(body)
-      tvlx_body = tvlxBody(body, false)
-      response = @request.post(@url + ADD_FAV_PATH, tvlx_body)
+      # tvlx_body = tvlxBody(body, false)
+      # response = @request.post(@url + ADD_FAV_PATH, tvlx_body)
       tvlx_body = tvlxBody(body, true)
       response = @request.post(@url + ADD_FAV_PATH, tvlx_body)
       puts response

@@ -33,6 +33,7 @@ module M2yTvlx
   FIND_RECEIPTS_PATH = "/API/BJ08M01/BJ08SS0101N/criarComprovante"
   TRANSFER_PATH = "/API/BJ08M01/BJ08SS0101K/efetuaLancamentoTransferencia"
   ADD_FAV_PATH = "/API/BJ08M01/BJ08SS0102O/manutencaoCadastrarFavorecido"
+  REMOVE_FAV_PATH = "/API/BJ08M01/BJ08SS0102O/manutencaoExcluirFavorecido"
   CHECK_FAV_PATH = "/API/BJ08M01/BJ08SS0102O/manutencaoListarFavorecidos"
   RECEIPTS_DETAILS = "/API/BJ08M01/BJ08SS0101O/consultaComprovanteDetalhados"
 
