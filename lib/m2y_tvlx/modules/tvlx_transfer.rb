@@ -21,6 +21,11 @@ module M2yTvlx
 
     def removeFavorite(body)
       tvlx_body = body
+      tvlx_body[:tpFiltro] = 1
+      tvlx_body[:nrSeq] = 0
+      tvlx_body[:nrBanco] = body["nrInst"]
+      tvlx_body[:nrInst] = getInstitution
+
       response = @request.post(@url + REMOVE_FAV_PATH, tvlx_body)
       puts response
       response
