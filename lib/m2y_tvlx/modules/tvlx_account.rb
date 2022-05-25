@@ -45,8 +45,6 @@ module M2yTvlx
         response = @request.post(@url + EXTRACT_PATH, params)
         transactions = response["consultaLancamento"]
       end
-      puts response
-      puts transactions
       # fixing cdt_fields
       if !transactions.nil?
         transactions.each do |transaction|
@@ -72,8 +70,12 @@ module M2yTvlx
       if !params[:page].nil? && params[:page] > 0
         transactions = []
       else
-        response = @request.post(@url + FUTURE_EXTRACT_PATH, params)
-        transactions = response["listaLancFuturos"]
+        begin
+          response = @request.post(@url + FUTURE_EXTRACT_PATH, params)
+          transactions = response["listaLancFuturos"]
+        rescue
+          transactions = []
+        end
       end
 
       # fixing cdt_fields
