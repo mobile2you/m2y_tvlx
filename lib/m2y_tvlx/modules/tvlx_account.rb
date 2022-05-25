@@ -45,6 +45,8 @@ module M2yTvlx
         response = @request.post(@url + EXTRACT_PATH, params)
         transactions = response["consultaLancamento"]
       end
+      puts response
+      puts transactions
       # fixing cdt_fields
       if !transactions.nil?
         transactions.each do |transaction|

@@ -22,10 +22,6 @@ module M2yTvlx
       end
       puts url.to_s
       req = HTTParty.get(url, headers: @headers, basic_auth: @auth)
-      begin
-        puts req.parsed_response
-      rescue
-      end
       req.parsed_response
     end
 
@@ -40,10 +36,6 @@ module M2yTvlx
                           headers: headers, basic_auth: @auth
                           )
       puts body
-      begin
-        puts req.parsed_response
-      rescue
-      end
       req.parsed_response
     end
 
