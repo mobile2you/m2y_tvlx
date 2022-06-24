@@ -21,6 +21,25 @@ module M2yTvlx
       account
     end
 
+    def getAllAccounts(id)
+      nrinst = getInstitution
+      response = @request.get(@url + ACCOUNT_PATH + "?nrCliente=#{id}&nrInst=#{nrinst}")
+      p response
+      accounts = []
+      response["contas"].each do |r|
+        account = TvlxModel.new(r)
+        #fixing cdt_fields
+        if !account.nil? && !account.cdCta.nil?
+          account.saldoDisponivelGlobal = account.vlSdds
+          account.idPessoa = account.cdCta
+          account.idStatusConta = 0
+          account.id = account.cdCta
+          accounts << account
+        end
+      end
+      accounts
+    end
+
     def findAccount(params)
       params[:nrSeq] = 0
       params[:nrInst] = getInstitution
