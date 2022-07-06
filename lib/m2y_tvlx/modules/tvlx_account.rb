@@ -82,6 +82,32 @@ module M2yTvlx
       (with_future ? getFutureTransactions(params) : [] ) + transactions
     end
 
+    def getPaginatedTransactions(params, with_future = true)
+      params[:nrSeq] = 0
+      params[:nrInst] = getInstitution
+      response = @request.post(@url + "#{PAGINATED_EXTRACT_PATH}?page=#{params[:page]}&size=#{params[:size]}", params)
+      transactions = response["consultaLancamento"]['content']
+      pages = response["consultaLancamento"]['totalPages']
+      # fixing cdt_fields
+      if !transactions.nil?
+        transactions.each do |transaction|
+          transaction["dataOrigem"] = transaction["dtLanc"]
+          transaction["descricaoAbreviada"] = transaction["dsLanc"] + (transaction["nmFav"].nil? ? "" : transaction["nmFav"])
+          transaction["idEventoAjuste"] = transaction["idTrans"]
+          transaction["codigoMCC"] = transaction["idTrans"]
+          transaction["nomeFantasiaEstabelecimento"] = transaction["descricaoAbreviada"]
+          transaction["valorBRL"] = transaction["vlLanc"].to_f #/100.0
+          transaction["flagCredito"] = transaction["tpSinal"] == "C" ? 1 : 0
+        end
+      else
+        transactions = []
+      end
+      {
+        transactions: (with_future ? getFutureTransactions(params) : [] ) + transactions,
+        totalPages: pages
+      }
+    end
+
     def getFutureTransactions(params)
       params[:nrSeq] = 0
       params[:dtFin] = 20300221
