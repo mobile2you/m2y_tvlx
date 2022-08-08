@@ -37,6 +37,7 @@ module M2yTvlx
   REMOVE_FAV_PATH = "/API/BJ08M01/BJ08SS0102O/manutencaoExcluirFavorecido"
   CHECK_FAV_PATH = "/API/BJ08M01/BJ08SS0102O/manutencaoListarFavorecidos"
   RECEIPTS_DETAILS = "/API/BJ08M01/BJ08SS0101O/consultaComprovanteDetalhados"
+  CANCEL_TRANSFER_PATH = "/API/BJ08M01/BJ08SS0103D/cancelarAgendamento"
 
   #BILLETTS
   BILLETS_PATH = "/API/BJ08M01/BJ08SS0102G/gerarBoleto"

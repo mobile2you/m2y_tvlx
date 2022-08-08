@@ -1,21 +1,18 @@
 module M2yTvlx
-
   class TvlxTransfer < TvlxModule
-
     def initialize(access_key, secret_key, url)
       startModule(access_key, secret_key, url)
     end
-
 
     def getFavorites(body)
       tvlx_body = body
       tvlx_body[:tpFiltro] = 1
       response = @request.post(@url + CHECK_FAV_PATH, tvlx_body)
       puts response
-      if response["listaFavorecidos"].nil?
+      if response['listaFavorecidos'].nil?
         []
       else
-        response["listaFavorecidos"]
+        response['listaFavorecidos']
       end
     end
 
@@ -23,23 +20,22 @@ module M2yTvlx
       tvlx_body = body
       tvlx_body[:tpFiltro] = 1
       tvlx_body[:nrSeq] = 0
-      tvlx_body[:nrBanco] = body["nrInst"]
-      tvlx_body["nrAgedes"] = body["nrAgen"]
-      tvlx_body["nrAgen"] = "19"
-      tvlx_body["nrInst"] = getInstitution
+      tvlx_body[:nrBanco] = body['nrInst']
+      tvlx_body['nrAgedes'] = body['nrAgen']
+      tvlx_body['nrAgen'] = '19'
+      tvlx_body['nrInst'] = getInstitution
 
       response = @request.post(@url + REMOVE_FAV_PATH, tvlx_body)
       puts response
       response
     end
 
-
     def bankTransfers(body, is_ted, date = nil)
       # if !checkFav(body)
-        addFav(body)
+      addFav(body)
       # end
 
-      #fix cdt_params
+      # fix cdt_params
       tvlx_body = {}
       tvlx_body[:idTitul] = 'C'
 
@@ -51,14 +47,9 @@ module M2yTvlx
       # if Time.now.utc.hour > 20
       #   date = DateTime.now.next_day
       # else
-      if date.nil?
-        date = DateTime.now
-      end
+      date = DateTime.now if date.nil?
 
-      if date.hour > 20
-        date = DateTime.now.next_day
-      end
-
+      date = DateTime.now.next_day if date.hour > 20
 
       if date.wday == 6
         date = date.next_day.next_day
@@ -66,11 +57,11 @@ module M2yTvlx
         date = date.next_day
       end
 
-      tvlx_body[:dtLanc] = date.strftime("%Y%m%d")
+      tvlx_body[:dtLanc] = date.strftime('%Y%m%d')
       tvlx_body[:tpTransf] = is_ted ? 2 : 3
       tvlx_body[:tpCtaFav] = 'CC'
       tvlx_body[:nrSeqDes] = 0
-      tvlx_body[:cdOrigem] = 24556
+      tvlx_body[:cdOrigem] = 24_556
       tvlx_body[:nrDocCre] = 9
       tvlx_body[:cdFin] = 1
       tvlx_body[:nrSeq] = 0
@@ -81,11 +72,10 @@ module M2yTvlx
       tvlx_body[:nrAgeDes] = body[:beneficiary][:agency]
       tvlx_body[:nrCtaDes] = body[:beneficiary][:account]
 
-      #adicionando DV
-      if !body[:beneficiary][:accountDigit].nil?
+      # adicionando DV
+      unless body[:beneficiary][:accountDigit].nil?
         tvlx_body[:nrCtaDes] = "#{tvlx_body[:nrCtaDes]}#{body[:beneficiary][:accountDigit]}".to_i
       end
-
 
       tvlx_body[:nmFavore] = body[:beneficiary][:name]
       tvlx_body[:nrInst] = getInstitution
@@ -105,7 +95,6 @@ module M2yTvlx
       end
       transferResponse
     end
-
 
     def getBankTransfers(params)
       params[:nrSeq] = 0
@@ -131,5 +120,10 @@ module M2yTvlx
       TvlxModel.new(response)
     end
 
+    def cancelBankTransfer(params)
+      url = @url + CANCEL_TRANSFER_PATH + "?nrSeqlcf=#{params[:nrSeqlcf]}&nrInst=#{params[:nrInst]}&nrAgen=#{params[:nrAgen]}"
+      response = @request.put(url)
+      TvlxModel.new(response)
+    end
   end
 end
