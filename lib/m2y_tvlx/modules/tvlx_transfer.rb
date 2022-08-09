@@ -121,8 +121,9 @@ module M2yTvlx
     end
 
     def cancelBankTransfer(params)
+      params[:nrInst] = getInstitution
       url = @url + CANCEL_TRANSFER_PATH + "?nrSeqlcf=#{params[:nrSeqlcf]}&nrInst=#{params[:nrInst]}&nrAgen=#{params[:nrAgen]}"
-      response = @request.put(url)
+      response = @request.putWithoutBody(url)
       TvlxModel.new(response)
     end
   end
