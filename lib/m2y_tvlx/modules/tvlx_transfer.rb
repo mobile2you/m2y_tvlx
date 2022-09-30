@@ -71,6 +71,7 @@ module M2yTvlx
       tvlx_body[:nrCpfCnpj] = body[:beneficiary][:docIdCpfCnpjEinSSN]
       tvlx_body[:nrAgeDes] = body[:beneficiary][:agency]
       tvlx_body[:nrCtaDes] = body[:beneficiary][:account]
+      tvlx_body[:dsHist] = body[:description]
 
       # adicionando DV
       unless body[:beneficiary][:accountDigit].nil?
