@@ -52,24 +52,23 @@ module M2yTvlx
       end
     end
 
-    def pix_auth(client_id, client_secret, url)
+    def pix_auth(client_id, client_secret, _url)
       data = {
         client_id: client_id,
         client_secret: client_secret,
-        grant_type: GRANT_TYPE,
+        grant_type: GRANT_TYPE
       }
 
       body = URI.encode_www_form(data)
 
       response = HTTParty.post(@url,
-        body: body,
-        headers: { 
-          'WWW-Authenticate' => WWW_AUTHENTICATE
-          'Content-Type' => 'application/x-www-form-urlencoded'
-        }, :verify => false
-      )
+                               body: body,
+                               headers: {
+                                 'WWW-Authenticate' => WWW_AUTHENTICATE,
+                                 'Content-Type' => 'application/x-www-form-urlencoded'
+                               }, verify: false)
 
-      response.parsed_response["access_token"]
+      response.parsed_response['access_token']
     end
   end
 end
