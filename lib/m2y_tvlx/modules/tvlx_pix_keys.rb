@@ -25,7 +25,6 @@ module M2yTvlx
     end
 
     def create_key(body)
-      refreshToken
       url = @url + PIX_CREATE_KEY_PATH
       headers = json_headers
       headers['WWW-Authenticate'] = WWW_AUTHENTICATE
