@@ -1,7 +1,7 @@
 module M2yTvlx
   class TvlxPixKeys < TvlxModule
     def initialize(client_id, client_secret, url)
-      @auth = TvlxAuth.new(client_id, client_secret, url + PIX_AUTH_PATH)
+      @auth = pix_auth(client_id, client_secret, url)
       @client_id = client_id
       @client_secret = client_secret
       @url = url
@@ -28,8 +28,8 @@ module M2yTvlx
       refreshToken
       url = @url + PIX_CREATE_KEY_PATH
       headers = json_headers
-      headers['WWW-Authenticate'] = '@s@!5PnFL&xl7&nwA9pmg3TG$f9wwYLliYJqnx!LR3Q!%MW95&'
-      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      headers['WWW-Authenticate'] = WWW_AUTHENTICATE
+      req = HTTParty.post(url, body: body.to_json, token: @auth, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
       rescue StandardError
@@ -50,6 +50,26 @@ module M2yTvlx
       rescue StandardError
         nil
       end
+    end
+
+    def pix_auth(client_id, client_secret, url)
+      data = {
+        client_id: client_id,
+        client_secret: client_secret,
+        grant_type: GRANT_TYPE,
+      }
+
+      body = URI.encode_www_form(data)
+
+      response = HTTParty.post(@url,
+        body: body,
+        headers: { 
+          'WWW-Authenticate' => WWW_AUTHENTICATE
+          'Content-Type' => 'application/x-www-form-urlencoded'
+        }, :verify => false
+      )
+
+      response.parsed_response["access_token"]
     end
   end
 end
