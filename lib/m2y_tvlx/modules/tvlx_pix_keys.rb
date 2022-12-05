@@ -28,8 +28,7 @@ module M2yTvlx
       refreshToken
       url = @url + PIX_CREATE_KEY_PATH
       headers = json_headers
-      headers['Authorization'] = "Bearer #{TvlxHelper.get_token(@client_secret)}"
-      headers['Chave-Idempotencia'] = SecureRandom.uuid
+      headers['WWW-Authenticate'] = '@s@!5PnFL&xl7&nwA9pmg3TG$f9wwYLliYJqnx!LR3Q!%MW95&'
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
