@@ -1,7 +1,7 @@
 module M2yTvlx
   class TvlxPixKeys < TvlxModule
     def initialize(client_id, client_secret, url)
-      @auth = pix_auth(client_id, client_secret, url)
+      @auth = pix_auth(client_id, client_secret, url + PIX_AUTH_PATH)
       @client_id = client_id
       @client_secret = client_secret
       @url = url
@@ -52,7 +52,7 @@ module M2yTvlx
       end
     end
 
-    def pix_auth(client_id, client_secret, _url)
+    def pix_auth(client_id, client_secret, url)
       data = {
         client_id: client_id,
         client_secret: client_secret,
@@ -61,7 +61,7 @@ module M2yTvlx
 
       body = URI.encode_www_form(data)
 
-      response = HTTParty.post(@url,
+      response = HTTParty.post(url,
                                body: body,
                                headers: {
                                  'WWW-Authenticate' => WWW_AUTHENTICATE,
