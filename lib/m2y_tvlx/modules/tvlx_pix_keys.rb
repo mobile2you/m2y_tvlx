@@ -28,9 +28,8 @@ module M2yTvlx
       url = @url + PIX_CREATE_KEY_PATH
       puts url
       headers = json_headers
-      headers['Authorization'] = @auth
       headers['WWW-Authenticate'] = WWW_AUTHENTICATE
-      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      req = HTTParty.post(url, body: body.to_json, token: @auth, headers: headers)
       puts req
       begin
         TvlxModel.new(req.parsed_response)
