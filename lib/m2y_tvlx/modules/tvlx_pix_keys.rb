@@ -31,7 +31,7 @@ module M2yTvlx
       headers['Authorization'] = "Bearer #{@auth}"
       headers['WWW-Authenticate'] = @www_authenticate
       headers['Content-Type'] = 'application/json'
-      req = HTTParty.post(url, body: body, verify: false, headers: headers)
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
       rescue StandardError
@@ -45,7 +45,7 @@ module M2yTvlx
       headers['Authorization'] = "Bearer #{@auth}"
       headers['WWW-Authenticate'] = @www_authenticate
       headers['Content-Type'] = 'application/json'
-      req = HTTParty.delete(url, body: body, verify: false, headers: headers)
+      req = HTTParty.delete(url, body: body.to_json, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
       rescue StandardError
