@@ -1,6 +1,7 @@
 module M2yTvlx
   class TvlxPixKeys < TvlxModule
-    def initialize(client_id, client_secret, url)
+    def initialize(client_id, client_secret, url, www_authenticate)
+      @www_authenticate = www_authenticate
       @auth = pix_auth(client_id, client_secret, url + PIX_AUTH_PATH)
       @client_id = client_id
       @client_secret = client_secret
@@ -26,13 +27,11 @@ module M2yTvlx
 
     def create_key(body)
       url = @url + PIX_CREATE_KEY_PATH
-      puts url
       headers = json_headers
       headers['Authorization'] = "Bearer #{@auth}"
-      headers['WWW-Authenticate'] = WWW_AUTHENTICATE
+      headers['WWW-Authenticate'] = @www_authenticate
       headers['Content-Type'] = 'application/json'
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
-      puts req
       begin
         TvlxModel.new(req.parsed_response)
       rescue StandardError
@@ -60,7 +59,7 @@ module M2yTvlx
       response = HTTParty.post(url,
                                body: auth,
                                headers: {
-                                 'WWW-Authenticate' => WWW_AUTHENTICATE,
+                                 'WWW-Authenticate' => @www_authenticate,
                                  'Content-Type' => 'application/x-www-form-urlencoded'
                                }, basic_auth: auth)
 

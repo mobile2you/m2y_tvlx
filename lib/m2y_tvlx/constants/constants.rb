@@ -10,7 +10,6 @@ module M2yTvlx
   PIX_CREATE_KEY_PATH = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_REMOVE_KEY_PATH = '/dict/chave/excluir/'
   PIX_LIST_KEYS_PATH = '/dict/chave/listar/chave'
-  WWW_AUTHENTICATE = '@s@!5PnFL&xl7&nwA9pmg3TG$f9wwYLliYJqnx!LR3Q!%MW95&'
   ### Paths
 
   # account
