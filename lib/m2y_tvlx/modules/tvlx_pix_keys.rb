@@ -31,7 +31,7 @@ module M2yTvlx
       headers['Authorization'] = "Bearer #{@auth}"
       headers['WWW-Authenticate'] = @www_authenticate
       headers['Content-Type'] = 'application/json'
-      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      req = HTTParty.post(url, body: body, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
       rescue StandardError
@@ -40,13 +40,12 @@ module M2yTvlx
     end
 
     def remove_key(id, body)
-      refreshToken
-      url = @url + PIX_REMOVE_KEY_PATH + id.to_s
-      puts url
+      url = @url + PIX_REMOVE_KEY_PATH + id + '/USER_REQUESTED'
       headers = json_headers
-      headers['Authorization'] = "Bearer #{TvlxHelper.get_token(@client_secret)}"
-      headers['Chave-Idempotencia'] = SecureRandom.uuid
-      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      headers['Authorization'] = "Bearer #{@auth}"
+      headers['WWW-Authenticate'] = @www_authenticate
+      headers['Content-Type'] = 'application/json'
+      req = HTTParty.delete(url, body: body, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
       rescue StandardError
