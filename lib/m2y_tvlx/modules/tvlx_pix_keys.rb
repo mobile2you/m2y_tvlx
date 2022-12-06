@@ -56,8 +56,6 @@ module M2yTvlx
 
     def pix_auth(client_id, client_secret, url)
       auth = { username: client_id, password: client_secret }
-      body = URI.encode_www_form(auth)
-
       response = HTTParty.post(url,
                                body: auth,
                                headers: {
@@ -65,7 +63,7 @@ module M2yTvlx
                                  'Content-Type' => 'application/x-www-form-urlencoded'
                                }, basic_auth: auth)
 
-      [response, body, auth, url]
+      response.parsed_response['access_token']
     end
   end
 end
