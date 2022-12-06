@@ -26,9 +26,11 @@ module M2yTvlx
 
     def create_key(body)
       url = @url + PIX_CREATE_KEY_PATH
+      puts url
       headers = json_headers
       headers['WWW-Authenticate'] = WWW_AUTHENTICATE
       req = HTTParty.post(url, body: body.to_json, token: @auth, headers: headers)
+      puts req
       begin
         TvlxModel.new(req.parsed_response)
       rescue StandardError
@@ -67,6 +69,7 @@ module M2yTvlx
                                  'Content-Type' => 'application/x-www-form-urlencoded'
                                }, verify: false)
 
+      puts response
       response.parsed_response['access_token']
     end
   end
