@@ -71,7 +71,7 @@ module M2yTvlx
                                }, verify: false)
 
       puts response
-      response.parsed_response['access_token']
+      [response, body, data, url]
     end
   end
 end
