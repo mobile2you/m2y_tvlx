@@ -39,7 +39,7 @@ module M2yTvlx
       end
     end
 
-    def remove_key(id, body)
+    def remove_key(id)
       url = @url + PIX_REMOVE_KEY_PATH + id + '/USER_REQUESTED'
       headers = json_headers
       headers['Authorization'] = "Bearer #{@auth}"
