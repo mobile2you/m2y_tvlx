@@ -13,10 +13,11 @@ module M2yTvlx
     end
 
     def list_keys(body)
-      refreshToken
       url = @url + PIX_LIST_KEYS_PATH
       headers = json_headers
-      headers['Authorization'] = "Bearer #{TvlxHelper.get_token(@client_secret)}"
+      headers['Authorization'] = "Bearer #{@auth}"
+      headers['WWW-Authenticate'] = @www_authenticate
+      headers['Content-Type'] = 'application/json'
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
