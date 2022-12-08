@@ -8,7 +8,7 @@ module M2yTvlx
   GRANT_TYPE = 'client_credentials'
   PIX_AUTH_PATH = '/api/sq-orchest-auth/auth/login'
   PIX_CREATE_KEY_PATH = '/api/sq-orchest-starter/start/dict/chaves'
-  PIX_REMOVE_KEY_PATH = '/api/sq-orchest-starter/start/dict/chaves/'
+  PIX_REMOVE_KEY_PATH = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_LIST_KEYS_PATH = '/api/sq-orchest-starter/start/legado/chaves/listar'
   ### Paths
 
