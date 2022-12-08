@@ -40,8 +40,8 @@ module M2yTvlx
       end
     end
 
-    def remove_key(params)
-      url = @url + PIX_REMOVE_KEY_PATH + "/#{params[:key]}/USER_REQUESTED"
+    def remove_key(key)
+      url = @url + PIX_REMOVE_KEY_PATH + "/#{key}/USER_REQUESTED"
       headers = json_headers
       headers['Authorization'] = "Bearer #{@auth}"
       headers['WWW-Authenticate'] = @www_authenticate
