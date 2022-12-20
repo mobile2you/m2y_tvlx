@@ -10,6 +10,8 @@ module M2yTvlx
   PIX_CREATE_KEY_PATH = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_REMOVE_KEY_PATH = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_LIST_KEYS_PATH = '/api/sq-orchest-starter/start/legado/chaves/listar'
+  PIX_TRANSFER_PATH = '/api/sq-orchest-starter/start/spi/pagamentos'
+  PIX_FIND_KEY = '/api/sq-orchest-starter/start/dict/chaves'
   ### Paths
 
   # account
