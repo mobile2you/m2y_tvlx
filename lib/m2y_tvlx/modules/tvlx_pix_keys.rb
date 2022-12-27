@@ -14,10 +14,7 @@ module M2yTvlx
 
     def list_keys(body)
       url = @url + PIX_LIST_KEYS_PATH
-      headers = json_headers
-      headers['Authorization'] = "Bearer #{@auth}"
-      headers['WWW-Authenticate'] = @www_authenticate
-      headers['Content-Type'] = 'application/json'
+      headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
@@ -28,10 +25,7 @@ module M2yTvlx
 
     def create_key(body)
       url = @url + PIX_CREATE_KEY_PATH
-      headers = json_headers
-      headers['Authorization'] = "Bearer #{@auth}"
-      headers['WWW-Authenticate'] = @www_authenticate
-      headers['Content-Type'] = 'application/json'
+      headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
@@ -42,10 +36,7 @@ module M2yTvlx
 
     def remove_key(key)
       url = @url + PIX_REMOVE_KEY_PATH + "/#{key}/USER_REQUESTED"
-      headers = json_headers
-      headers['Authorization'] = "Bearer #{@auth}"
-      headers['WWW-Authenticate'] = @www_authenticate
-      headers['Content-Type'] = 'application/json'
+      headers = pix_headers
       req = HTTParty.delete(url, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
@@ -56,10 +47,7 @@ module M2yTvlx
 
     def find_key(key, id)
       url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
-      headers = json_headers
-      headers['Authorization'] = "Bearer #{@auth}"
-      headers['WWW-Authenticate'] = @www_authenticate
-      headers['Content-Type'] = 'application/json'
+      headers = pix_headers
       req = HTTParty.get(url, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
@@ -70,10 +58,7 @@ module M2yTvlx
 
     def pix_transfer(body)
       url = @url + PIX_TRANSFER_PATH
-      headers = json_headers
-      headers['Authorization'] = "Bearer #{@auth}"
-      headers['WWW-Authenticate'] = @www_authenticate
-      headers['Content-Type'] = 'application/json'
+      headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
@@ -84,10 +69,18 @@ module M2yTvlx
 
     def generate_qr_static(body)
       url = @url + PIX_CREATE_QR_STATIC
-      headers = json_headers
-      headers['Authorization'] = "Bearer #{@auth}"
-      headers['WWW-Authenticate'] = @www_authenticate
-      headers['Content-Type'] = 'application/json'
+      headers = pix_headers
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end
+
+    def decode_qr(body)
+      url = @url + PIX_DECODE_QR
+      headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
@@ -106,6 +99,14 @@ module M2yTvlx
                                }, basic_auth: auth)
 
       response.parsed_response['access_token']
+    end
+
+    def pix_headers
+      {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer #{@auth}",
+        'WWW-Authenticate': @www_authenticate
+      }
     end
   end
 end

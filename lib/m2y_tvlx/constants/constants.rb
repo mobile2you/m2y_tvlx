@@ -13,6 +13,7 @@ module M2yTvlx
   PIX_TRANSFER_PATH = '/api/sq-orchest-starter/start/spi/pagamentos'
   PIX_FIND_KEY = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_CREATE_QR_STATIC = '/api/sq-orchest-starter/start/qrcode/v2/static'
+  PIX_DECODE_QR = '/api/sq-orchest-starter/start/qrcode/v2/decode'
   ### Paths
 
   # account
