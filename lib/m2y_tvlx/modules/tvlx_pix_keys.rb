@@ -49,8 +49,12 @@ module M2yTvlx
       url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
       headers = pix_headers
       req = HTTParty.get(url, verify: false, headers: headers)
+      req = req.parsed_response
+      bank = get_bank(req)
+      req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
+      req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
       begin
-        TvlxModel.new(req.parsed_response)
+        TvlxModel.new(req)
       rescue StandardError
         nil
       end
@@ -60,8 +64,12 @@ module M2yTvlx
       url = @url + PIX_TRANSFER_PATH
       headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      req = req.parsed_response
+      bank = get_bank(req)
+      req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
+      req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
       begin
-        TvlxModel.new(req.parsed_response)
+        TvlxModel.new(req)
       rescue StandardError
         nil
       end
@@ -107,6 +115,13 @@ module M2yTvlx
         'Authorization': "Bearer #{@auth}",
         'WWW-Authenticate': @www_authenticate
       }
+    end
+
+    private
+
+    def get_bank(req)
+      list_bank = HTTParty.get(BANKS_PIX, verify: false, headers: { 'Content-Type': 'application/json' })
+      list_bank.select { |x| x['ispb'] == req['recebedor']['ispb'] }.first
     end
   end
 end

@@ -14,6 +14,7 @@ module M2yTvlx
   PIX_FIND_KEY = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_CREATE_QR_STATIC = '/api/sq-orchest-starter/start/qrcode/v2/static'
   PIX_DECODE_QR = '/api/sq-orchest-starter/start/qrcode/v2/decode'
+  BANKS_PIX = 'https://brasilapi.com.br/api/banks/v1'
   ### Paths
 
   # account
