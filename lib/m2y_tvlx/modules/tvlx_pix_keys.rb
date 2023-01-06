@@ -51,8 +51,8 @@ module M2yTvlx
       req = HTTParty.get(url, verify: false, headers: headers)
       req = req.parsed_response
       bank = get_bank(req)
-      req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
-      req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
+      req['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
+      req['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
       begin
         TvlxModel.new(req)
       rescue StandardError
