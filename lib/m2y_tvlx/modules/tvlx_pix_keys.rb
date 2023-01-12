@@ -97,6 +97,17 @@ module M2yTvlx
       end
     end
 
+    def create_key_claim(body)
+      url = @url + PIX_CREATE_CLAIM_PATH
+      headers = pix_headers
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end
+
     def pix_auth(client_id, client_secret, url)
       auth = { username: client_id, password: client_secret }
       response = HTTParty.post(url,
