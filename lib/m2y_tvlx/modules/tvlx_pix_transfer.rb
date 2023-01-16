@@ -1,18 +1,20 @@
 module M2yTvlx
-  class TvlxPixKeys < TvlxModule
-    def initialize(client_id, client_secret, url, www_authenticate)
-      @www_authenticate = www_authenticate
-      @auth = pix_auth(client_id, client_secret, url + PIX_AUTH_PATH)
-      @client_id = client_id
-      @client_secret = client_secret
-      @url = url
+  class TvlxPixKeys < TvlxPix
+
+
+    def receipts(from, to)
+      url = @url + PIX_EXTRACT + "?dataFinalResultado=#{to}&dataInicialResultado=#{from}&horarioFinalResultado=00&horarioInicialResultado=23"
+      headers = pix_headers
+      puts url
+      puts headers
+      req = HTTParty.get(url, verify: false, headers: headers)
+      req = req.parsed_response
+      begin
+        TvlxModel.new(req)
+      rescue StandardError
+        nil
+      end
     end
-
-    def refreshToken
-      @auth.generateToken if TvlxHelper.shouldRefreshToken?(@client_secret)
-    end
-
-
 
 
     def pix_transfer(body)
@@ -52,33 +54,5 @@ module M2yTvlx
       end
     end
 
-
-
-    def pix_auth(client_id, client_secret, url)
-      auth = { username: client_id, password: client_secret }
-      response = HTTParty.post(url,
-                               body: auth,
-                               headers: {
-                                 'WWW-Authenticate' => @www_authenticate,
-                                 'Content-Type' => 'application/x-www-form-urlencoded'
-      }, basic_auth: auth)
-
-      response.parsed_response['access_token']
-    end
-
-    def pix_headers
-      {
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer #{@auth}",
-        'WWW-Authenticate': @www_authenticate
-      }
-    end
-
-    private
-
-    def get_bank(req)
-      list_bank = HTTParty.get(BANKS_PIX, verify: false, headers: { 'Content-Type': 'application/json' })
-      list_bank.select { |x| x['ispb'] == req['recebedor']['ispb'] }.first
-    end
   end
 end
