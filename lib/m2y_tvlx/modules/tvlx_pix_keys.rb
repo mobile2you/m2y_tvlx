@@ -1,6 +1,5 @@
 module M2yTvlx
   class TvlxPixKeys < TvlxPix
-
     def list_keys(body)
       url = @url + PIX_LIST_KEYS_PATH
       headers = pix_headers
@@ -49,7 +48,6 @@ module M2yTvlx
       end
     end
 
-
     def create_key_claim(body)
       url = @url + PIX_CREATE_CLAIM_PATH
       headers = pix_headers
@@ -61,5 +59,75 @@ module M2yTvlx
       end
     end
 
+    def cancel_claim(body)
+      url = @url + PIX_CANCEL_CLAIM_PATH
+      headers = pix_headers
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end
+
+    def list_claims(params)
+      url = @url + PIX_LIST_CLAIM_PATH + "?ispb=#{params[:ispb]}&limite=#{params[:limit]}"
+      headers = pix_headers
+      req = HTTParty.post(url, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end
+
+    def confirm_claim(body)
+      url = @url + PIX_CONFIRM_CLAIM_PATH
+      headers = pix_headers
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end
+
+    def conclude_claim(body)
+      url = @url + PIX_CONCLUDE_CLAIM_PATH
+      headers = pix_headers
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end
+
+    def pix_auth(client_id, client_secret, url)
+      auth = { username: client_id, password: client_secret }
+      response = HTTParty.post(url,
+                               body: auth,
+                               headers: {
+                                 'WWW-Authenticate' => @www_authenticate,
+                                 'Content-Type' => 'application/x-www-form-urlencoded'
+                               }, basic_auth: auth)
+
+      response.parsed_response['access_token']
+    end
+
+    def pix_headers
+      {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer #{@auth}",
+        'WWW-Authenticate': @www_authenticate
+      }
+    end
+
+    private
+
+    def get_bank(req)
+      list_bank = HTTParty.get(BANKS_PIX, verify: false, headers: { 'Content-Type': 'application/json' })
+      list_bank.select { |x| x['ispb'] == req['recebedor']['ispb'] }.first
+    end
   end
 end

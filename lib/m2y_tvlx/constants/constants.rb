@@ -16,6 +16,10 @@ module M2yTvlx
   PIX_DECODE_QR = '/api/sq-orchest-starter/start/qrcode/v2/decode'
   PIX_EXTRACT = '/api/sq-orchest-starter/start/spi/extrato'
   PIX_CREATE_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes'
+  PIX_CANCEL_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes/cancela'
+  PIX_LIST_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes'
+  PIX_CONFIRM_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes/confirma'
+  PIX_CONCLUDE_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes/conclui'
   BANKS_PIX = 'https://brasilapi.com.br/api/banks/v1'
   ### Paths
 
