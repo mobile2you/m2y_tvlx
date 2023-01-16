@@ -38,7 +38,7 @@ module M2yTvlx
       headers = pix_headers
       req = HTTParty.get(url, verify: false, headers: headers)
       req = req.parsed_response
-      bank = get_bank(req)
+      bank = get_bank(req['chave']['dadosConta']['ispb'])
       req['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
       req['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
       begin
@@ -101,33 +101,6 @@ module M2yTvlx
       rescue StandardError
         nil
       end
-    end
-
-    def pix_auth(client_id, client_secret, url)
-      auth = { username: client_id, password: client_secret }
-      response = HTTParty.post(url,
-                               body: auth,
-                               headers: {
-                                 'WWW-Authenticate' => @www_authenticate,
-                                 'Content-Type' => 'application/x-www-form-urlencoded'
-                               }, basic_auth: auth)
-
-      response.parsed_response['access_token']
-    end
-
-    def pix_headers
-      {
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer #{@auth}",
-        'WWW-Authenticate': @www_authenticate
-      }
-    end
-
-    private
-
-    def get_bank(req)
-      list_bank = HTTParty.get(BANKS_PIX, verify: false, headers: { 'Content-Type': 'application/json' })
-      list_bank.select { |x| x['ispb'] == req['recebedor']['ispb'] }.first
     end
   end
 end

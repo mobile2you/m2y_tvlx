@@ -1,6 +1,5 @@
 module M2yTvlx
   class TvlxPix < TvlxModule
-
     def initialize(client_id, client_secret, url, www_authenticate)
       @www_authenticate = www_authenticate
       @auth = pix_auth(client_id, client_secret, url + PIX_AUTH_PATH)
@@ -20,7 +19,7 @@ module M2yTvlx
                                headers: {
                                  'WWW-Authenticate' => @www_authenticate,
                                  'Content-Type' => 'application/x-www-form-urlencoded'
-      }, basic_auth: auth)
+                               }, basic_auth: auth)
 
       response.parsed_response['access_token']
     end
@@ -33,11 +32,9 @@ module M2yTvlx
       }
     end
 
-
-    def get_bank(req)
+    def get_bank(ispb)
       list_bank = HTTParty.get(BANKS_PIX, verify: false, headers: { 'Content-Type': 'application/json' })
-      list_bank.select { |x| x['ispb'] == req['recebedor']['ispb'] }.first
+      list_bank.select { |x| x['ispb'] == ispb }.first
     end
-
   end
 end
