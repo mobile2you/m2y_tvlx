@@ -14,6 +14,7 @@ module M2yTvlx
   PIX_FIND_KEY = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_CREATE_QR_STATIC = '/api/sq-orchest-starter/start/qrcode/v2/static'
   PIX_DECODE_QR = '/api/sq-orchest-starter/start/qrcode/v2/decode'
+  PIX_EXTRACT = '/api/sq-orchest-starter/start/spi/extrato'
   PIX_CREATE_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes'
   PIX_CANCEL_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes/cancela'
   PIX_LIST_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes'
