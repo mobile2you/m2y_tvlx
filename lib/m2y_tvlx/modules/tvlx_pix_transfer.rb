@@ -1,5 +1,5 @@
 module M2yTvlx
-  class TvlxPixKeys < TvlxPix
+  class TvlxPixTransfer < TvlxPix
 
 
     def receipts(from, to)
