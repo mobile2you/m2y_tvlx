@@ -12,47 +12,17 @@ module M2yTvlx
       @auth.generateToken if TvlxHelper.shouldRefreshToken?(@client_secret)
     end
 
-    def list_keys(body)
-      url = @url + PIX_LIST_KEYS_PATH
+
+
+
+    def pix_transfer(body)
+      url = @url + PIX_TRANSFER_PATH
       headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
-      begin
-        TvlxModel.new(req.parsed_response)
-      rescue StandardError
-        nil
-      end
-    end
-
-    def create_key(body)
-      url = @url + PIX_CREATE_KEY_PATH
-      headers = pix_headers
-      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
-      begin
-        TvlxModel.new(req.parsed_response)
-      rescue StandardError
-        nil
-      end
-    end
-
-    def remove_key(key)
-      url = @url + PIX_REMOVE_KEY_PATH + "/#{key}/USER_REQUESTED"
-      headers = pix_headers
-      req = HTTParty.delete(url, verify: false, headers: headers)
-      begin
-        TvlxModel.new(req.parsed_response)
-      rescue StandardError
-        nil
-      end
-    end
-
-    def find_key(key, id)
-      url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
-      headers = pix_headers
-      req = HTTParty.get(url, verify: false, headers: headers)
       req = req.parsed_response
       bank = get_bank(req)
-      req['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
-      req['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
+      req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
+      req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
       begin
         TvlxModel.new(req)
       rescue StandardError
@@ -60,9 +30,8 @@ module M2yTvlx
       end
     end
 
-
-    def create_key_claim(body)
-      url = @url + PIX_CREATE_CLAIM_PATH
+    def generate_qr_static(body)
+      url = @url + PIX_CREATE_QR_STATIC
       headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       begin
@@ -71,6 +40,19 @@ module M2yTvlx
         nil
       end
     end
+
+    def decode_qr(body)
+      url = @url + PIX_DECODE_QR
+      headers = pix_headers
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end
+
+
 
     def pix_auth(client_id, client_secret, url)
       auth = { username: client_id, password: client_secret }
@@ -79,7 +61,7 @@ module M2yTvlx
                                headers: {
                                  'WWW-Authenticate' => @www_authenticate,
                                  'Content-Type' => 'application/x-www-form-urlencoded'
-                               }, basic_auth: auth)
+      }, basic_auth: auth)
 
       response.parsed_response['access_token']
     end
