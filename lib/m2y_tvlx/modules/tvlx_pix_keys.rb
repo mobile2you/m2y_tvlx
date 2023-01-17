@@ -33,16 +33,28 @@ module M2yTvlx
       end
     end
 
-    def find_key(key, id)
-      url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
 
+    def check_key(key, id)
+      url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
       headers = pix_headers
       puts url
       puts headers
       req = HTTParty.get(url, verify: false, headers: headers)
       req = req.parsed_response
       puts req
+      begin
+        TvlxModel.new(req)
+      rescue StandardError
+        nil
+      end
+    end
 
+
+    def find_key(key, id)
+      url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
+      headers = pix_headers
+      req = HTTParty.get(url, verify: false, headers: headers)
+      req = req.parsed_response
       bank = get_bank(req['chave']['dadosConta']['ispb'])
       req['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
       req['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
