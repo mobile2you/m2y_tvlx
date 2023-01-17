@@ -40,10 +40,15 @@ module M2yTvlx
       puts url
       puts headers
       req = HTTParty.get(url, verify: false, headers: headers)
-      req = req.parsed_response
+      response = req.parsed_response
       puts req
+      if response.code <= 202
+        bank = get_bank(response['chave']['dadosConta']['ispb'])
+        response['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
+        response['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
+      end
       begin
-        TvlxModel.new(req)
+        TvlxModel.new(response)
       rescue StandardError
         nil
       end
