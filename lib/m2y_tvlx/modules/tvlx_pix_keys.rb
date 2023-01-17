@@ -44,6 +44,7 @@ module M2yTvlx
       puts req
       if req.code <= 202
         bank = get_bank(response['chave']['dadosConta']['ispb'])
+        puts bank
         response['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
         response['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
       end
