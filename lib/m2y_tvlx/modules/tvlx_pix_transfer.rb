@@ -1,7 +1,5 @@
 module M2yTvlx
   class TvlxPixTransfer < TvlxPix
-
-
     def receipts(from, to)
       url = @url + PIX_EXTRACT + "?dataFinalResultado=#{to}&dataInicialResultado=#{from}&horarioFinalResultado=00&horarioInicialResultado=23"
       headers = pix_headers
@@ -16,13 +14,12 @@ module M2yTvlx
       end
     end
 
-
     def pix_transfer(body)
       url = @url + PIX_TRANSFER_PATH
       headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       req = req.parsed_response
-      bank = get_bank(req)
+      bank = get_bank(req['recebedor']['ispb'])
       req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
       req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
       begin
@@ -53,6 +50,5 @@ module M2yTvlx
         nil
       end
     end
-
   end
 end

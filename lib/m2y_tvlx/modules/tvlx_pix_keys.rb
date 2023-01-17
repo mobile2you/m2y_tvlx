@@ -43,7 +43,7 @@ module M2yTvlx
       req = req.parsed_response
       puts req
 
-      bank = get_bank(req)
+      bank = get_bank(req['chave']['dadosConta']['ispb'])
       req['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
       req['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
       begin
@@ -108,25 +108,6 @@ module M2yTvlx
       end
     end
 
-    def pix_auth(client_id, client_secret, url)
-      auth = { username: client_id, password: client_secret }
-      response = HTTParty.post(url,
-                               body: auth,
-                               headers: {
-                                 'WWW-Authenticate' => @www_authenticate,
-                                 'Content-Type' => 'application/x-www-form-urlencoded'
-      }, basic_auth: auth)
-
-      response.parsed_response['access_token']
-    end
-
-    def pix_headers
-      {
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer #{@auth}",
-        'WWW-Authenticate': @www_authenticate
-      }
-    end
 
     private
 
