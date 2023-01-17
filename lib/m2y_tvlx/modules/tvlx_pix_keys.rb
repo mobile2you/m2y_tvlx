@@ -35,9 +35,14 @@ module M2yTvlx
 
     def find_key(key, id)
       url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
+
       headers = pix_headers
+      puts url
+      puts headers
       req = HTTParty.get(url, verify: false, headers: headers)
       req = req.parsed_response
+      puts req
+
       bank = get_bank(req)
       req['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
       req['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
@@ -110,7 +115,7 @@ module M2yTvlx
                                headers: {
                                  'WWW-Authenticate' => @www_authenticate,
                                  'Content-Type' => 'application/x-www-form-urlencoded'
-                               }, basic_auth: auth)
+      }, basic_auth: auth)
 
       response.parsed_response['access_token']
     end
