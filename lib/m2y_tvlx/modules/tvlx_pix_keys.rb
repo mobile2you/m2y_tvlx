@@ -130,7 +130,7 @@ module M2yTvlx
 
     def get_bank(req)
       list_bank = HTTParty.get(BANKS_PIX, verify: false, headers: { 'Content-Type': 'application/json' })
-      list_bank.select { |x| x['ispb'] == req['recebedor']['ispb'] }.first
+      list_bank.select { |x| x['ispb'] == req }.first
     end
   end
 end
