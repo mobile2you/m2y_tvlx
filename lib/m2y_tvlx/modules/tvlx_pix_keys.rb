@@ -42,7 +42,7 @@ module M2yTvlx
       req = HTTParty.get(url, verify: false, headers: headers)
       response = req.parsed_response
       puts req
-      if response.code <= 202
+      if req.code <= 202
         bank = get_bank(response['chave']['dadosConta']['ispb'])
         response['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
         response['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
