@@ -31,6 +31,23 @@ module M2yTvlx
       end
     end
 
+    def pix_reversal(body)
+      url = @url + PIX_TRANSFER_PATH
+      headers = pix_headers
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      req = req.parsed_response
+      puts url
+      puts req
+      bank = get_bank(req['recebedor']['ispb'])
+      req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
+      req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
+      begin
+        TvlxModel.new(req)
+      rescue StandardError
+        nil
+      end
+    end
+
     def generate_qr_static(body)
       url = @url + PIX_CREATE_QR_STATIC
       headers = pix_headers
