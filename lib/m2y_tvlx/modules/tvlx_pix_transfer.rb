@@ -19,6 +19,8 @@ module M2yTvlx
       headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       req = req.parsed_response
+      puts url
+      puts req
       bank = get_bank(req['recebedor']['ispb'])
       req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
       req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
