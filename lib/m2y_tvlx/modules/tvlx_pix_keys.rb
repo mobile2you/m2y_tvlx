@@ -92,7 +92,7 @@ module M2yTvlx
     end
 
     def list_claims(params)
-      url = @url + PIX_LIST_CLAIM_PATH + "?ispb=#{params[:ispb]}&limite=#{params[:limit]}"
+      url = @url + PIX_LIST_CLAIM_PATH + "?ispb=#{params[:ispb]}&limite=#{params[:limit]}&reivindicador=true"
       headers = pix_headers
       req = HTTParty.get(url, verify: false, headers: headers)
       begin
