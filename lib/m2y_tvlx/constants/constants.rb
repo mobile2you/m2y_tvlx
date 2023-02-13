@@ -78,4 +78,8 @@ module M2yTvlx
   VALIDATE_PATH = '/api/bill-payments/'
   PAYMENTS_RECEIPTS = '/api/payments'
   PAY = '/api/bill-payments/pj'
+
+  # open banking
+  GRANT_CODE_PATH = '/oauth/v1/grant-code?response_type=code'
+  BANKING_AUTH_PATH = '/oauth/v1/access-token'
 end
