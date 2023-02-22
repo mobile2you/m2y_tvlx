@@ -82,4 +82,7 @@ module M2yTvlx
   # open banking
   GRANT_CODE_PATH = '/oauth/v1/grant-code?response_type=code'
   BANKING_AUTH_PATH = '/oauth/v1/access-token'
+
+  #open banking phase 3
+  FIND_AGREEMENT = '/open-banking/journey-aspsp/v1/payments/consents/'
 end

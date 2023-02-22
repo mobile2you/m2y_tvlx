@@ -1,6 +1,6 @@
 module M2yTvlx
   class TvlxOpenBanking
-    def initialize(client_id, redirect_uri, url, state, auth)
+    def start_module(client_id, redirect_uri, url, state, auth)
       @client_id = client_id
       @redirect_uri = redirect_uri
       @url = url
