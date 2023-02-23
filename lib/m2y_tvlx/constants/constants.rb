@@ -84,5 +84,5 @@ module M2yTvlx
   BANKING_AUTH_PATH = '/oauth/v1/access-token'
 
   #open banking phase 3
-  FIND_AGREEMENT = '/open-banking/journey-aspsp/v1/payments/consents/'
+  CONSENTS_PATH = '/open-banking/journey-aspsp/v1/payments/consents/'
 end
