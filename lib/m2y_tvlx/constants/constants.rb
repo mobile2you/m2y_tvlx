@@ -83,6 +83,9 @@ module M2yTvlx
   GRANT_CODE_PATH = '/oauth/v1/grant-code?response_type=code'
   BANKING_AUTH_PATH = '/oauth/v1/access-token'
 
-  #open banking phase 3
+  #open banking phase 3 - ITP Initiator
+  FIND_ORGANIZATION = '/open-banking/journey-tpp/v1/authorisationservers'
+
+  #open banking phase 3 - ID Holder
   FIND_AGREEMENT = '/open-banking/journey-aspsp/v1/payments/consents/'
 end

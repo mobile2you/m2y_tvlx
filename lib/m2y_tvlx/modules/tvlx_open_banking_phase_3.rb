@@ -4,7 +4,20 @@ module M2yTvlx
       start_module(client_id, redirect_uri, url, state, auth)
     end
 
-    #ID Step
+    #ITP Initiator Step
+    def find_organization(options={}) #2-Find a banking organization
+      url = "#{@url}#{FIND_ORGANIZATION}"
+      headers = {
+        'Authorization' => "Bearer #{@authorization_code}"
+      }
+      query = {}
+      query[:organisationName] = options[:organization_name] if options[:organization_name].present?
+      query[:role] = options[:role] if options[:role].present?
+      response = HTTParty.get(url, headers: headers, query: query)
+      response.parsed_response
+    end
+
+    #ID Holder Step
     def find_agreement(consent_id) #2-Find agreement by id
       url = "#{@url}#{FIND_AGREEMENT}#{consent_id}"
       headers = {
