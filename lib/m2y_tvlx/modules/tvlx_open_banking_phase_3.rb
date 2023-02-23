@@ -27,21 +27,21 @@ module M2yTvlx
       response["errors"].blank? ? response["data"] : response.parsed_response
     end
 
-    def confirm_agreement(consent_id)
+    def confirm_agreement(consent_id) #3-Authorize Confirmation
       url = "#{@url}#{CONSENTS_PATH}#{consent_id}/authorised"
       headers = {
         'Authorization' => "Bearer #{@authorization_code}"
       }
-      response = HTTParty.get(url, headers: headers)
+      response = HTTParty.patch(url, headers: headers, follow_redirects: false)
       response.parsed_response
     end 
 
-    def refuse_agreement(consent_id)
+    def refuse_agreement(consent_id) #3-Reject Confirmation
       url = "#{@url}#{CONSENTS_PATH}#{consent_id}/rejected"
       headers = {
         'Authorization' => "Bearer #{@authorization_code}"
       }
-      response = HTTParty.get(url, headers: headers)
+      response = HTTParty.patch(url, headers: headers, follow_redirects: false)
       response.parsed_response
     end 
   end
