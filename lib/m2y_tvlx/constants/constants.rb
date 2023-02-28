@@ -11,6 +11,7 @@ module M2yTvlx
   PIX_REMOVE_KEY_PATH = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_LIST_KEYS_PATH = '/api/sq-orchest-starter/start/legado/chaves/listar'
   PIX_TRANSFER_PATH = '/api/sq-orchest-starter/start/spi/pagamentos'
+  PIX_REVERSAL_PATH = '/api/sq-orchest-starter/start/spi/devolucoes'
   PIX_FIND_KEY = '/api/sq-orchest-starter/start/dict/chaves'
   PIX_CREATE_QR_STATIC = '/api/sq-orchest-starter/start/qrcode/v2/static'
   PIX_DECODE_QR = '/api/sq-orchest-starter/start/qrcode/v2/decode'
@@ -77,4 +78,17 @@ module M2yTvlx
   VALIDATE_PATH = '/api/bill-payments/'
   PAYMENTS_RECEIPTS = '/api/payments'
   PAY = '/api/bill-payments/pj'
+
+  # open banking
+  GRANT_CODE_PATH = '/oauth/v1/grant-code?response_type=code'
+  BANKING_AUTH_PATH = '/oauth/v1/access-token'
+
+  #open banking phase 3
+  
+  #open banking phase 3 - ITP Initiator
+  FIND_ORGANIZATION = '/open-banking/journey-tpp/v1/authorisationservers'
+  CONSENTS_PATH_ITP = '/open-banking/journey-tpp/v1/payments/consents'
+  
+  #open banking phase 3 - ID Holder
+  CONSENTS_PATH = '/open-banking/journey-aspsp/v1/payments/consents/'
 end

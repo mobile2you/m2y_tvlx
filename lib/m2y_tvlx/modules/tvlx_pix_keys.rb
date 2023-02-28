@@ -33,7 +33,6 @@ module M2yTvlx
       end
     end
 
-
     def check_key(key, id)
       url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
       headers = pix_headers
@@ -54,7 +53,6 @@ module M2yTvlx
         nil
       end
     end
-
 
     def find_key(key, id)
       url = @url + PIX_FIND_KEY + "/#{key}/#{id}"
@@ -94,9 +92,9 @@ module M2yTvlx
     end
 
     def list_claims(params)
-      url = @url + PIX_LIST_CLAIM_PATH + "?ispb=#{params[:ispb]}&limite=#{params[:limit]}"
+      url = @url + PIX_LIST_CLAIM_PATH + "?ispb=#{params[:ispb]}&limite=#{params[:limit]}&reivindicador=true"
       headers = pix_headers
-      req = HTTParty.post(url, verify: false, headers: headers)
+      req = HTTParty.get(url, verify: false, headers: headers)
       begin
         TvlxModel.new(req.parsed_response)
       rescue StandardError
@@ -125,7 +123,5 @@ module M2yTvlx
         nil
       end
     end
-
-
   end
 end

@@ -59,7 +59,7 @@ module M2yTvlx
 
       tvlx_body[:dtLanc] = date.strftime('%Y%m%d')
       tvlx_body[:tpTransf] = is_ted ? 2 : 3
-      tvlx_body[:tpCtaFav] = 'CC'
+      tvlx_body[:tpCtaFav] = body[:beneficiary][:accountType]
       tvlx_body[:nrSeqDes] = 0
       tvlx_body[:cdOrigem] = 24_556
       tvlx_body[:nrDocCre] = 9
