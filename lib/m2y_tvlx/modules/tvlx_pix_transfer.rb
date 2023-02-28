@@ -21,9 +21,13 @@ module M2yTvlx
       req = req.parsed_response
       puts url
       puts req
-      bank = get_bank(req['recebedor']['ispb'])
-      req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
-      req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
+      begin
+        bank = get_bank(req['recebedor']['ispb'])
+        req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
+        req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
+      rescue
+      end
+      
       begin
         TvlxModel.new(req)
       rescue StandardError
