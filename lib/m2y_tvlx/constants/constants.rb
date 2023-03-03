@@ -86,6 +86,7 @@ module M2yTvlx
   #open banking phase 3
   
   #open banking phase 3 - ITP Initiator
+  FIND_ORGANIZATION_BY_ID = "/open-banking/journey-tpp/v1/organisations"
   FIND_ORGANIZATION = '/open-banking/journey-tpp/v1/authorisationservers'
   CONSENTS_PATH_ITP = '/open-banking/journey-tpp/v1/payments/consents'
   
