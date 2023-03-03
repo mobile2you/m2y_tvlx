@@ -73,5 +73,9 @@ module M2yTvlx
         nil
       end
     end
+
+    def get_bank_by_ispb(ispb)
+      bank = get_bank(ispb)
+    end 
   end
 end
