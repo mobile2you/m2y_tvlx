@@ -11,9 +11,21 @@ module M2yTvlx
         'Authorization' => "Bearer #{@authorization_code}"
       }
       query = {}
+
       query[:organisationName] = options[:organization_name] if options[:organization_name].present?
       query[:role] = options[:role] if options[:role].present?
       response = HTTParty.get(url, headers: headers, query: query)
+      response.parsed_response
+    end
+
+    def find_organization_by_id(id) #2-Find a banking organization
+      url = "#{@url}#{FIND_ORGANIZATION_BY_ID}/#{id}/authorisationservers"
+
+      headers = {
+        'Authorization' => "Bearer #{@authorization_code}"
+      }
+
+      response = HTTParty.get(url, headers: headers)
       response.parsed_response
     end
 
