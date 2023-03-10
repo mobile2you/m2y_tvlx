@@ -97,6 +97,72 @@ module M2yTvlx
       transferResponse
     end
 
+    def p2pTransfers(body, is_ted = false, date = nil)
+      # if !checkFav(body)
+      addFav(body)
+      # end
+
+      # fix cdt_params
+      tvlx_body = {}
+      tvlx_body[:idTitul] = 'C'
+
+      tvlx_body[:cdCta] = body[:cdCta]
+      tvlx_body[:cdFin] = body[:cdFin]
+      tvlx_body[:nrAgen] = body[:nrAgen]
+      tvlx_body[:vlLanc] = body[:value]
+
+      # if Time.now.utc.hour > 20
+      #   date = DateTime.now.next_day
+      # else
+      date = DateTime.now if date.nil?
+
+      date = DateTime.now.next_day if date.hour > 20
+
+      if date.wday == 6
+        date = date.next_day.next_day
+      elsif date.wday == 0
+        date = date.next_day
+      end
+
+      tvlx_body[:dtLanc] = date.strftime('%Y%m%d')
+      tvlx_body[:tpTransf] = 1
+      tvlx_body[:tpCtaFav] = body[:beneficiary][:accountType]
+      tvlx_body[:nrSeqDes] = 0
+      tvlx_body[:cdOrigem] = 24_556
+      tvlx_body[:nrDocCre] = 9
+      tvlx_body[:cdFin] = 1
+      tvlx_body[:nrSeq] = 0
+      tvlx_body[:dsHist] = ''
+      tvlx_body[:dsHistC] = ''
+      tvlx_body[:nrBcoDes] = body[:beneficiary][:bankId]
+      tvlx_body[:nrCpfCnpj] = body[:beneficiary][:docIdCpfCnpjEinSSN]
+      tvlx_body[:nrAgeDes] = body[:beneficiary][:agency]
+      tvlx_body[:nrCtaDes] = body[:beneficiary][:account]
+      tvlx_body[:dsHist] = body[:description]
+
+      # adicionando DV
+      unless body[:beneficiary][:accountDigit].nil?
+        tvlx_body[:nrCtaDes] = "#{tvlx_body[:nrCtaDes]}#{body[:beneficiary][:accountDigit]}".to_i
+      end
+
+      tvlx_body[:nmFavore] = body[:beneficiary][:name]
+      tvlx_body[:nrInst] = getInstitution
+
+      puts tvlx_body
+
+      response = @request.post(@url + TRANSFER_PATH, tvlx_body)
+
+      puts response
+      transferResponse = TvlxModel.new(response)
+
+      if transferResponse && transferResponse.efetuaLancamentoTransferencia == 0
+        transferResponse.id = Time.now.to_i
+        transferResponse.statusCode = 200
+        transferResponse.transactionCode = Time.now.to_i
+        # transferResponse.content = transferResponse
+      end
+      transferResponse
+    end
     def getBankTransfers(params)
       params[:nrSeq] = 0
       params[:nrInst] = getInstitution
