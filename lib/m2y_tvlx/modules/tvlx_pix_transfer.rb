@@ -22,7 +22,7 @@ module M2yTvlx
       puts url
       puts req
       begin
-        bank = get_bank(req['recebedor']['ispb'])
+        bank = get_bank_by_ispb(req['recebedor']['ispb'])
         req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
         req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
       rescue
@@ -42,7 +42,7 @@ module M2yTvlx
       req = req.parsed_response
       puts url
       puts req
-      bank = get_bank(req['recebedor']['ispb'])
+      bank = get_bank_by_ispb(req['recebedor']['ispb'])
       req['recebedor']['bank'] = bank.present? ? bank['name'] : ''
       req['recebedor']['bank_code'] = bank.present? ? bank['code'] : ''
       begin
