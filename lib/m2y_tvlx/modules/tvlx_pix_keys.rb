@@ -59,9 +59,12 @@ module M2yTvlx
       headers = pix_headers
       req = HTTParty.get(url, verify: false, headers: headers)
       req = req.parsed_response
-      bank = get_bank(req['chave']['dadosConta']['ispb'])
-      req['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
-      req['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
+      if req['chave'].present?
+        bank = get_bank(req['chave']['dadosConta']['ispb'])
+        req['chave']['dadosConta']['bank'] = bank.present? ? bank['name'] : ''
+        req['chave']['dadosConta']['bank_code'] = bank.present? ? bank['code'] : ''
+      end
+      
       begin
         TvlxModel.new(req)
       rescue StandardError
