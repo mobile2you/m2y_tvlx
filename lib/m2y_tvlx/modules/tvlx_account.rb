@@ -74,7 +74,7 @@ module M2yTvlx
           transaction['flagCredito'] = transaction['tpSinal'] == 'C' ? 1 : 0
         end
       else
-        transactions = []
+        return nil
       end
 
       transactions
