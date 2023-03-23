@@ -55,26 +55,22 @@ module M2yTvlx
     def getTransactions(params, _with_future = true)
       params[:nrSeq] = 0
       params[:nrInst] = getInstitution
-      if !params[:page].nil? && params[:page] > 0
-        transactions = []
-      else
-        response = @request.post(@url + EXTRACT_PATH, params)
-        transactions = response['consultaLancamento']
-      end
-      # fixing cdt_fields
-      if !transactions.nil?
-        transactions.each do |transaction|
-          transaction['dataOrigem'] = transaction['dtLanc']
-          transaction['descricaoAbreviada'] =
+      return [] if !params[:page].nil? && params[:page] > 0
+
+      response = @request.post(@url + EXTRACT_PATH, params)
+      return nil if response.nil?
+      return nil unless response['consultaLancamento'].present?
+
+      transactions = response['consultaLancamento']
+      transactions.each do |transaction|
+        transaction['dataOrigem'] = transaction['dtLanc']
+        transaction['descricaoAbreviada'] =
             transaction['dsLanc'] + (transaction['nmFav'].nil? ? '' : transaction['nmFav'])
-          transaction['idEventoAjuste'] = transaction['idTrans']
-          transaction['codigoMCC'] = transaction['idTrans']
-          transaction['nomeFantasiaEstabelecimento'] = transaction['descricaoAbreviada']
-          transaction['valorBRL'] = transaction['vlLanc'].to_f # /100.0
-          transaction['flagCredito'] = transaction['tpSinal'] == 'C' ? 1 : 0
-        end
-      else
-        return nil
+        transaction['idEventoAjuste'] = transaction['idTrans']
+        transaction['codigoMCC'] = transaction['idTrans']
+        transaction['nomeFantasiaEstabelecimento'] = transaction['descricaoAbreviada']
+        transaction['valorBRL'] = transaction['vlLanc'].to_f # /100.0
+        transaction['flagCredito'] = transaction['tpSinal'] == 'C' ? 1 : 0
       end
 
       transactions
