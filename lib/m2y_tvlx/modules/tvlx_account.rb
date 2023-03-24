@@ -58,8 +58,7 @@ module M2yTvlx
       return [] if !params[:page].nil? && params[:page] > 0
 
       response = @request.post(@url + EXTRACT_PATH, params)
-      return nil if response.nil?
-      return nil unless response['consultaLancamento'].present?
+      return nil unless response&.dig('consultaLancamento')
 
       transactions = response['consultaLancamento']
       transactions.each do |transaction|
