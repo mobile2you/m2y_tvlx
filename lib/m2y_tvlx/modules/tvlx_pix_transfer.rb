@@ -77,5 +77,16 @@ module M2yTvlx
     def get_bank_by_ispb(ispb)
       bank = get_bank(ispb)
     end 
+
+    def schedule_pix(body)
+      url = @url + PIX_SCHEDULED_PATH
+      headers = pix_headers
+      req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end 
   end
 end

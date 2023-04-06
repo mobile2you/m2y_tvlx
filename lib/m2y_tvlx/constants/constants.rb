@@ -21,6 +21,7 @@ module M2yTvlx
   PIX_LIST_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes'
   PIX_CONFIRM_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes/confirma'
   PIX_CONCLUDE_CLAIM_PATH = '/api/sq-orchest-starter/start/dict/reivindicacoes/conclui'
+  PIX_SCHEDULED_PATH = '/api/sq-orchest-starter/start/agendamento/pix/agendar'
   BANKS_PIX = 'https://brasilapi.com.br/api/banks/v1'
   ### Paths
 
