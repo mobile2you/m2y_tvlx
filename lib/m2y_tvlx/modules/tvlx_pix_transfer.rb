@@ -36,7 +36,7 @@ module M2yTvlx
     end
 
     def pix_reversal(body)
-      url = @url + PIX_TRANSFER_PATH
+      url = @url + PIX_REVERSAL_PATH
       headers = pix_headers
       req = HTTParty.post(url, body: body.to_json, verify: false, headers: headers)
       req = req.parsed_response
