@@ -22,6 +22,9 @@ module M2yTvlx
     def getAllAccounts(id)
       nrinst = getInstitution
       response = @request.get(@url + ACCOUNT_PATH + "?nrCliente=#{id}&nrInst=#{nrinst}")
+      
+      return nil if response.nil? 
+
       p response
       accounts = []
       response['contas'].each do |r|
