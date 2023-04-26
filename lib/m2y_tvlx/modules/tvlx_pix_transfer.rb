@@ -95,5 +95,16 @@ module M2yTvlx
         nil
       end
     end
+
+    def schedule_pix_cancel(end_to_end_id)
+      url = @url + PIX_SCHEDULED_CANCEL_PATH + '/' + end_to_end_id
+      headers = pix_headers
+      req = HTTParty.delete(url, verify: false, headers: headers)
+      begin
+        TvlxModel.new(req.parsed_response)
+      rescue StandardError
+        nil
+      end
+    end
   end
 end
